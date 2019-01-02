@@ -1,11 +1,15 @@
-{% extends 'core/base.html' %}
+{% extends 'core/main_page.html' %}
 
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 
 {% block main %}
 
-    {% image page.image fill-2000x400 class="img-fluid" %}
+    <div class="image">
+        {% image page.image fill-2000x600 class="img-fluid" %}
+
+        <div class="credit">{{ page.image_credit|richtext }}</div>
+    </div>
 
     <div class="container">
         <div class="row">

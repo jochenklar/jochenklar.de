@@ -41,6 +41,8 @@ class HomePage(SingletonMixin, Page):
     image = models.ForeignKey(
         'wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
+    image_credit = RichTextField(blank=True)
+
     color = models.ForeignKey(
         'core.Color', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
@@ -57,6 +59,7 @@ class HomePage(SingletonMixin, Page):
     ]
     promote_panels = Page.promote_panels + [
         ImageChooserPanel('image'),
+        FieldPanel('image_credit', classname='full'),
         SnippetChooserPanel('color'),
     ]
 
@@ -78,6 +81,8 @@ class MainPage(Page):
     image = models.ForeignKey(
         'wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
+    image_credit = RichTextField(blank=True)
+
     color = models.ForeignKey(
         'core.Color', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
@@ -94,6 +99,7 @@ class MainPage(Page):
     ]
     promote_panels = Page.promote_panels + [
         ImageChooserPanel('image'),
+        FieldPanel('image_credit', classname='full'),
         SnippetChooserPanel('color'),
     ]
 
