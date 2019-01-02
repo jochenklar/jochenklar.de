@@ -50,7 +50,11 @@ main {
     }
 
     .sidebar {
-        color: #999;
+        font-size: 13px;
+
+        p, ul, ol {
+            margin-bottom: 5px;
+        }
     }
 }
 
@@ -101,5 +105,14 @@ footer {
         a, a:hover, a:focus, a:visited {
             color: #ccc!important;
         }
+    }
+}
+
+.richtext-image {
+    &.left {
+        float: left;
+    }
+    &.right {
+        float: right;
     }
 }

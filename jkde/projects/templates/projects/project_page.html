@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-md-3 sidebar">
-                <p>{% trans 'Status' %}</p>
+                <p>{% trans 'Status' %}: In progress</p>
 
                 {% if page.start_date %}
                 <p>
@@ -32,14 +32,32 @@
                 </p>
                 {% endif %}
 
-                {% trans 'Collaboration' %}
+                <p>{% trans 'In collaboration with' %}:</p>
+
                 <ul class="list-unstyled">
-                    <li>Foo</li>
+                {% for collaboration in page.collaborations.all %}
+                    <li>
+                        {% if collaboration.url %}
+                        <a href="{{ collaboration.url }}">
+                            {{ collaboration.name }}
+                        </a>
+                        {% else %}
+                        {{ collaboration.name }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
                 </ul>
 
-                {% trans 'Links' %}
+                <p>{% trans 'Links' %}:</p>
+
                 <ul class="list-unstyled">
-                    <li>Foo</li>
+                {% for link in page.related_links.all %}
+                    <li>
+                        <a href="{{ link.url }}">
+                            {{ link.title }}
+                        </a>
+                    </li>
+                {% endfor %}
                 </ul>
             </div>
             <div class="col-md-9">

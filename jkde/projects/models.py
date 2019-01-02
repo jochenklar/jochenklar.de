@@ -1,10 +1,13 @@
 from django.db import models
 
-from wagtail.core.models import Page
+from modelcluster.fields import ParentalKey
+
+from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
 
 from wagtail.admin.edit_handlers import (
     FieldPanel,
+    InlinePanel,
     TabbedInterface,
     ObjectList
 )
@@ -96,13 +99,15 @@ class ProjectPage(Page):
     promote_panels = Page.promote_panels + [
         FieldPanel('start_date'),
         FieldPanel('end_date'),
+        InlinePanel('collaborations', label='Collaborations'),
+        InlinePanel('related_links', label='Related links'),
     ]
 
     edit_handler = TabbedInterface([
         ObjectList(content_panels, heading='Content'),
         ObjectList(content_de_panels, heading='Content DE'),
         ObjectList(promote_panels, heading='Promote'),
-        ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
+        ObjectList(Page.settings_panels, heading='Settings', classname='settings'),
     ])
 
     parent_page_types = ['projects.ProjectIndexPage']
@@ -110,3 +115,29 @@ class ProjectPage(Page):
     @property
     def color(self):
         return self.get_parent().specific.color
+
+
+class ProjectPageCollaboration(Orderable):
+
+    page = ParentalKey('projects.ProjectPage', on_delete=models.CASCADE, related_name='collaborations')
+
+    name = models.CharField(max_length=255)
+    url = models.URLField('External link', blank=True)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('url'),
+    ]
+
+
+class ProjectPageRelatedLink(Orderable):
+
+    page = ParentalKey('projects.ProjectPage', on_delete=models.CASCADE, related_name='related_links')
+
+    title = models.CharField(max_length=255)
+    url = models.URLField('External link', blank=True)
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('url'),
+    ]
