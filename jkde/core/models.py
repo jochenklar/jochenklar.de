@@ -6,8 +6,13 @@ from modelcluster.fields import ParentalKey
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
 
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, PageChooserPanel
-
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    InlinePanel,
+    PageChooserPanel,
+    TabbedInterface,
+    ObjectList
+)
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from wagtail.contrib.settings.models import BaseSetting, register_setting
@@ -39,12 +44,25 @@ class HomePage(SingletonMixin, Page):
     trans_title = TranslatedTitleField('title')
     trans_body = TranslatedTextField('body')
 
-    content_panels = Page.content_panels + [
-        FieldPanel('title_de', classname="full title"),
+    content_panels = [
+        FieldPanel('title', classname="full title"),
         FieldPanel('body', classname='full'),
+    ]
+    content_de_panels = [
+        FieldPanel('title_de', classname="full title"),
         FieldPanel('body_de', classname='full'),
+    ]
+    image_panels = [
         ImageChooserPanel('image'),
     ]
+
+    edit_handler = TabbedInterface([
+        ObjectList(content_panels, heading='Content'),
+        ObjectList(content_de_panels, heading='Content DE'),
+        ObjectList(image_panels, heading='Image'),
+        ObjectList(Page.promote_panels, heading='Promote'),
+        ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
+    ])
 
 
 class MainPage(Page):
@@ -60,12 +78,25 @@ class MainPage(Page):
     trans_title = TranslatedTitleField('title')
     trans_body = TranslatedTextField('body')
 
-    content_panels = Page.content_panels + [
-        FieldPanel('title_de', classname="full title"),
+    content_panels = [
+        FieldPanel('title', classname="full title"),
         FieldPanel('body', classname='full'),
+    ]
+    content_de_panels = [
+        FieldPanel('title_de', classname="full title"),
         FieldPanel('body_de', classname='full'),
+    ]
+    image_panels = [
         ImageChooserPanel('image'),
     ]
+
+    edit_handler = TabbedInterface([
+        ObjectList(content_panels, heading='Content'),
+        ObjectList(content_de_panels, heading='Content DE'),
+        ObjectList(image_panels, heading='Image'),
+        ObjectList(Page.promote_panels, heading='Promote'),
+        ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
+    ])
 
 
 class TextPage(Page):
@@ -80,10 +111,19 @@ class TextPage(Page):
 
     content_panels = [
         FieldPanel('title', classname="full title"),
-        FieldPanel('title_de', classname="full title"),
         FieldPanel('body', classname='full'),
+    ]
+    content_de_panels = [
+        FieldPanel('title_de', classname="full title"),
         FieldPanel('body_de', classname='full'),
     ]
+
+    edit_handler = TabbedInterface([
+        ObjectList(content_panels, heading='Content'),
+        ObjectList(content_de_panels, heading='Content DE'),
+        ObjectList(Page.promote_panels, heading='Promote'),
+        ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
+    ])
 
 
 @register_setting
