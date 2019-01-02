@@ -46,7 +46,7 @@
                         <ul>
                             {% for item in nav.items.all %}
                             <li>
-                                <a href="{{ item.page.url }}">{{ item.page.title }}</a>
+                                <a href="{{ item.page.url }}">{{ item.page.specific.trans_title }}</a>
                             </li>
                             {% endfor %}
                         </ul>
@@ -84,7 +84,7 @@
                     <ul>
                         {% for item in nav.items.all %}
                         <li>
-                            <a href="{{ item.page.url }}">{{ item.page.title }}</a>
+                            <a href="{{ item.page.url }}">{{ item.page.specific.trans_title }}</a>
                         </li>
                         {% endfor %}
                     </ul>
