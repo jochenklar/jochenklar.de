@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% load i18n %}
+
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block main %}
+
+    <div class="container content">
+        <div class="row">
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-9">
+                <h1>{{ page.trans_title }}</h1>
+                <h2>{{ page.trans_subtitle }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 sidebar">
+                <p>{% trans 'Status' %}</p>
+
+                {% if page.start_date %}
+                <p>
+                    {% trans 'Start' %}: {{ page.start_date }}
+                </p>
+                {% endif %}
+                {% if page.end_date %}
+                <p>
+                    {% trans 'End' %}: {{ page.end_date }}
+                </p>
+                {% endif %}
+
+                {% trans 'Collaboration' %}
+                <ul class="list-unstyled">
+                    <li>Foo</li>
+                </ul>
+
+                {% trans 'Links' %}
+                <ul class="list-unstyled">
+                    <li>Foo</li>
+                </ul>
+            </div>
+            <div class="col-md-9">
+                {{ page.trans_body|richtext }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

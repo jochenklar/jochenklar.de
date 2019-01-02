@@ -10,8 +10,7 @@ INSTALLED_APPS = [
     'jkde',
     'jkde.core',
     # 'jkde.blog',
-    # 'jkde.pages',
-    # 'jkde.projects',
+    'jkde.projects',
     # 'jkde.search',
 
     'wagtail.contrib.forms',
