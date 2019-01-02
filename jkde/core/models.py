@@ -27,7 +27,7 @@ class SingletonMixin(object):
 
     @classmethod
     def can_create_at(cls, parent):
-        # Only create one ProjectIndexPage
+        # Only create one Singleton
         return super().can_create_at(parent) and not cls.objects.exists()
 
 
