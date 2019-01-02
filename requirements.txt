@@ -1,0 +1,8 @@
+Django
+wagtail
+
+django-extensions
+django-vendor-files
+django-libsass
+
+psycopg2-binary

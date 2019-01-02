@@ -1,0 +1,96 @@
+{% load static %}
+{% load compress %}
+{% load i18n %}
+{% load vendor_tags %}
+{% load wagtailuserbar %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title %}
+                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+            {% endblock %}
+            {% block title_suffix %}
+                {% with self.get_site.site_name as site_name %}
+                    {% if site_name %}- {{ site_name }}{% endif %}
+                {% endwith %}
+            {% endblock %}
+        </title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="shortcut icon" href="{% static 'core/img/favicon.png' %}" type="image/png" />
+
+        {% vendor 'jquery' %}
+        {% vendor 'popper' %}
+        {% vendor 'bootstrap' %}
+
+        {% compress css %}
+        <link rel="stylesheet" type="text/x-scss" href="{% static 'core/css/fonts.scss' %}" />
+        <link rel="stylesheet" type="text/x-scss" href="{% static 'core/css/style.scss' %}" />
+        {% endcompress %}
+    </head>
+
+    <body class="{{ page.color }}">
+
+        <div class="wrapper">
+            <header>
+                <div class="container">
+                    <a class="brand" href="/">{{ self.get_site.site_name }}</a>
+
+                    {% with settings.pages.PageSettings.header_navigation as nav %}
+                    <nav>
+                        <ul>
+                            {% for item in nav.items.all %}
+                            <li>
+                                <a href="{{ item.page.url }}">{{ item.page.title }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    {% endwith %}
+                </div>
+            </header>
+
+            <main>
+                {% block main %}
+
+                {% endblock %}
+            </main>
+        </div>
+
+        <footer>
+            <div class="container">
+                <nav class="float-left">
+                    <ul>
+                        <li>
+                            <a href="{% url 'i18n_switcher' 'de' %}">
+                                {% trans 'German' %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'i18n_switcher' 'en' %}">
+                                {% trans 'English' %}
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                {% with settings.pages.PageSettings.footer_navigation as nav %}
+                <nav class="float-right">
+                    <ul>
+                        {% for item in nav.items.all %}
+                        <li>
+                            <a href="{{ item.page.url }}">{{ item.page.title }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+                {% endwith %}
+            </div>
+        </footer>
+
+    </body>
+</html>

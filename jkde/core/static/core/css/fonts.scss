@@ -1,0 +1,41 @@
+@font-face {
+    font-family: Vollkorn;
+    src: url('../fonts/Vollkorn-Regular.otf');
+}
+@font-face {
+    font-family: Vollkorn;
+    src: url('../fonts/Vollkorn-Bold.otf');
+    font-weight: bold;
+}
+@font-face {
+    font-family: Vollkorn;
+    src: url('../fonts/Vollkorn-Italic.otf');
+    font-style: italic;
+}
+@font-face {
+    font-family: Vollkorn;
+    src: url('../fonts/Vollkorn-BoldItalic.otf');
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: SourceCodePro;
+    src: url('../fonts/SourceCodePro-Regular.otf');
+}
+@font-face {
+    font-family: SourceCodePro;
+    src: url('../fonts/SourceCodePro-Bold.otf');
+    font-weight: bold;
+}
+body {
+    color: #444;
+    font-family: 'Vollkorn', serif;
+    font-size: 18px;
+    line-height: 24px;
+}
+code, pre {
+    font-family: "SourceCodePro", monospace;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Vollkorn', serif;
+}
