@@ -31,9 +31,11 @@
         <link rel="stylesheet" type="text/x-scss" href="{% static 'core/css/fonts.scss' %}" />
         <link rel="stylesheet" type="text/x-scss" href="{% static 'core/css/style.scss' %}" />
         {% endcompress %}
+
+        {{ page.color.style|safe }}
     </head>
 
-    <body class="{{ page.color }}">
+    <body>
         {% wagtailuserbar %}
 
         <div class="wrapper">

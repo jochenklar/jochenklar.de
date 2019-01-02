@@ -41,6 +41,9 @@ class HomePage(SingletonMixin, Page):
     image = models.ForeignKey(
         'wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
+    color = models.ForeignKey(
+        'core.Color', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+
     trans_title = TranslatedTitleField('title')
     trans_body = TranslatedTextField('body')
 
@@ -52,15 +55,15 @@ class HomePage(SingletonMixin, Page):
         FieldPanel('title_de', classname="full title"),
         FieldPanel('body_de', classname='full'),
     ]
-    image_panels = [
+    promote_panels = Page.promote_panels + [
         ImageChooserPanel('image'),
+        SnippetChooserPanel('color'),
     ]
 
     edit_handler = TabbedInterface([
         ObjectList(content_panels, heading='Content'),
         ObjectList(content_de_panels, heading='Content DE'),
-        ObjectList(image_panels, heading='Image'),
-        ObjectList(Page.promote_panels, heading='Promote'),
+        ObjectList(promote_panels, heading='Promote'),
         ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
     ])
 
@@ -75,6 +78,9 @@ class MainPage(Page):
     image = models.ForeignKey(
         'wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
+    color = models.ForeignKey(
+        'core.Color', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+
     trans_title = TranslatedTitleField('title')
     trans_body = TranslatedTextField('body')
 
@@ -86,15 +92,15 @@ class MainPage(Page):
         FieldPanel('title_de', classname="full title"),
         FieldPanel('body_de', classname='full'),
     ]
-    image_panels = [
+    promote_panels = Page.promote_panels + [
         ImageChooserPanel('image'),
+        SnippetChooserPanel('color'),
     ]
 
     edit_handler = TabbedInterface([
         ObjectList(content_panels, heading='Content'),
         ObjectList(content_de_panels, heading='Content DE'),
-        ObjectList(image_panels, heading='Image'),
-        ObjectList(Page.promote_panels, heading='Promote'),
+        ObjectList(promote_panels, heading='Promote'),
         ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
     ])
 
@@ -106,6 +112,9 @@ class TextPage(Page):
     body = RichTextField(blank=True)
     body_de = RichTextField(blank=True)
 
+    color = models.ForeignKey(
+        'core.Color', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+
     trans_title = TranslatedTitleField('title')
     trans_body = TranslatedTextField('body')
 
@@ -117,11 +126,14 @@ class TextPage(Page):
         FieldPanel('title_de', classname="full title"),
         FieldPanel('body_de', classname='full'),
     ]
+    promote_panels = Page.promote_panels + [
+        SnippetChooserPanel('color'),
+    ]
 
     edit_handler = TabbedInterface([
         ObjectList(content_panels, heading='Content'),
         ObjectList(content_de_panels, heading='Content DE'),
-        ObjectList(Page.promote_panels, heading='Promote'),
+        ObjectList(promote_panels, heading='Promote'),
         ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
     ])
 
@@ -163,3 +175,22 @@ class MenuItem(Orderable):
     panels = [
         PageChooserPanel('page'),
     ]
+
+
+@register_snippet
+class Color(ClusterableModel):
+
+    name = models.CharField(max_length=255, null=False, blank=False)
+    color = models.CharField(max_length=255, null=False, blank=False)
+
+    def __str__(self):
+        return self.name
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('color'),
+    ]
+
+    @property
+    def style(self):
+        return '<style>a, a:hover, a:focus, a:visited { color: %s }</style>' % self.color

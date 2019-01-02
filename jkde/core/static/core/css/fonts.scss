@@ -27,15 +27,38 @@
     src: url('../fonts/SourceCodePro-Bold.otf');
     font-weight: bold;
 }
+
 body {
     color: #444;
     font-family: 'Vollkorn', serif;
     font-size: 18px;
     line-height: 24px;
 }
+
 code, pre {
     font-family: "SourceCodePro", monospace;
 }
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Vollkorn', serif;
+}
+h1 {
+    font-size: 32px;
+    margin-bottom: 16px;
+}
+h2 {
+    font-size: 26px;
+}
+h3 {
+    font-size: 22px;
+}
+h4 {
+    font-size: 18px;
+}
+
+a,
+a:hover,
+a:focus,
+a:visited {
+    color: #900;
 }
