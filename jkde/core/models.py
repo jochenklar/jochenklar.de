@@ -1,10 +1,19 @@
 from django.db import models
 
-from wagtail.core.models import Page
+from modelcluster.models import ClusterableModel
+from modelcluster.fields import ParentalKey
+
+from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
 
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, PageChooserPanel
+
 from wagtail.images.edit_handlers import ImageChooserPanel
+
+from wagtail.contrib.settings.models import BaseSetting, register_setting
+
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
+from wagtail.snippets.models import register_snippet
 
 from jkde.core.fields import TranslatedTitleField, TranslatedTextField
 
@@ -74,4 +83,43 @@ class TextPage(Page):
         FieldPanel('title_de', classname="full title"),
         FieldPanel('body', classname='full'),
         FieldPanel('body_de', classname='full'),
+    ]
+
+
+@register_setting
+class Settings(BaseSetting):
+
+    header_navigation = models.ForeignKey(
+        'core.Menu', null=True, on_delete=models.SET_NULL, related_name='+')
+
+    footer_navigation = models.ForeignKey(
+        'core.Menu', null=True, on_delete=models.SET_NULL, related_name='+')
+
+    panels = [
+        SnippetChooserPanel('header_navigation'),
+        SnippetChooserPanel('footer_navigation')
+    ]
+
+
+@register_snippet
+class Menu(ClusterableModel):
+
+    name = models.CharField(max_length=255, null=False, blank=False)
+
+    def __str__(self):
+        return self.name
+
+    panels = [
+        FieldPanel('name'),
+        InlinePanel('items', label='Pages'),
+    ]
+
+
+class MenuItem(Orderable):
+    parent = ParentalKey('core.Menu', related_name='items')
+    page = models.ForeignKey(
+        'wagtailcore.Page', null=True, on_delete=models.SET_NULL, related_name='+')
+
+    panels = [
+        PageChooserPanel('page'),
     ]

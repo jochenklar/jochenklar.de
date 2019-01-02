@@ -40,7 +40,7 @@
                 <div class="container">
                     <a class="brand" href="/">{{ self.get_site.site_name }}</a>
 
-                    {% with settings.pages.PageSettings.header_navigation as nav %}
+                    {% with settings.core.Settings.header_navigation as nav %}
                     <nav>
                         <ul>
                             {% for item in nav.items.all %}
@@ -78,7 +78,7 @@
                     </ul>
                 </nav>
 
-                {% with settings.pages.PageSettings.footer_navigation as nav %}
+                {% with settings.core.Settings.footer_navigation as nav %}
                 <nav class="float-right">
                     <ul>
                         {% for item in nav.items.all %}
