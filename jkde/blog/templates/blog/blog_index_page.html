@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block main %}
+
+    <div class="image">
+        {% image page.image fill-1920x640 class="img-fluid" %}
+
+        <div class="credit">{{ page.image_credit|richtext }}</div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-9 content">
+                <h1>{{ page.trans_title }}</h1>
+
+                <p class="blog-intro">
+                    {{ page.trans_intro|richtext }}
+                </p>
+
+                {% for post in page.get_children %}
+                <div class="post">
+                    <h2>
+                        <a href="{% pageurl post %}">
+                            {{ post.specific.trans_title }}
+                        </a>
+                    </h2>
+
+                    {{ post.specific.trans_body|richtext }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

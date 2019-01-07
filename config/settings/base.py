@@ -9,7 +9,7 @@ INTERNAL_IPS = ('127.0.0.1',)
 INSTALLED_APPS = [
     'jkde',
     'jkde.core',
-    # 'jkde.blog',
+    'jkde.blog',
     'jkde.projects',
     # 'jkde.search',
 
