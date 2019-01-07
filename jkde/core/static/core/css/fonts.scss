@@ -48,17 +48,22 @@ h1 {
 }
 h2 {
     font-size: 26px;
+    margin-top: 20px;
 }
 h3 {
     font-size: 22px;
+    margin-top: 20px;
 }
 h4 {
     font-size: 18px;
 }
 
-a,
-a:hover,
-a:focus,
-a:visited {
-    color: #900;
+a, a:hover, a:focus, a:visited {
+    color: rgb(135, 0, 0);
+}
+blockquote,
+address,
+pre {
+    border-color: rgb(135, 0, 0);
+    background-color: rgba(135, 0, 0, 0.1);
 }

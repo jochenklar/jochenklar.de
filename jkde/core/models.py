@@ -186,17 +186,37 @@ class MenuItem(Orderable):
 @register_snippet
 class Color(ClusterableModel):
 
-    name = models.CharField(max_length=255, null=False, blank=False)
-    color = models.CharField(max_length=255, null=False, blank=False)
+    name = models.CharField(max_length=255)
+    red = models.IntegerField(default=0)
+    green = models.IntegerField(default=0)
+    blue = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
 
     panels = [
         FieldPanel('name'),
-        FieldPanel('color'),
+        FieldPanel('red'),
+        FieldPanel('green'),
+        FieldPanel('blue')
     ]
 
     @property
     def style(self):
-        return '<style>a, a:hover, a:focus, a:visited { color: %s }</style>' % self.color
+        return '''
+        <style>
+            a, a:hover, a:focus, a:visited {
+                color: rgb(%(red)s, %(green)s, %(blue)s);
+            }
+            blockquote p,
+            address,
+            pre {
+                border-color: rgb(%(red)s, %(green)s, %(blue)s);
+                background-color: rgb(%(red)s, %(green)s, %(blue)s, 0.1);
+            }
+        </style>
+        ''' % {
+            'red': self.red,
+            'green': self.green,
+            'blue': self.blue
+        }

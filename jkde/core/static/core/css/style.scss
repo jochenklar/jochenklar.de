@@ -84,6 +84,17 @@ footer {
     }
 }
 
+blockquote {
+    padding: 8px 15px 5px 15px;
+    border-left-width: 3px;
+    border-left-style: solid;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
 .image {
     position: relative;
 
