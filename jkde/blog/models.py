@@ -25,9 +25,6 @@ class BlogIndexPage(SingletonMixin, Page):
 
     title_de = models.CharField(max_length=255, blank=True)
 
-    intro = RichTextField(blank=True)
-    intro_de = RichTextField(blank=True)
-
     image = models.ForeignKey(
         'wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
@@ -41,11 +38,9 @@ class BlogIndexPage(SingletonMixin, Page):
 
     content_panels = [
         FieldPanel('title', classname="full title"),
-        FieldPanel('intro', classname='full'),
     ]
     content_de_panels = [
         FieldPanel('title_de', classname="full title"),
-        FieldPanel('intro_de', classname='full'),
     ]
     promote_panels = Page.promote_panels + [
         ImageChooserPanel('image'),

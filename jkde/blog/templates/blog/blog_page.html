@@ -7,61 +7,31 @@
 
 {% block main %}
 
-    <div class="container content">
-        <div class="row">
-            <div class="col-md-3">
+    <div class="blog">
+        <div class="image">
+            {% image page.image fill-1920x640 class="img-fluid" %}
 
-            </div>
-            <div class="col-md-9">
-                <h1>{{ page.trans_title }}</h1>
-                <h2>{{ page.trans_subtitle }}</h2>
-            </div>
+            <div class="credit">{{ page.image_credit|richtext }}</div>
         </div>
-        <div class="row">
-            <div class="col-md-3 sidebar">
-                <p>{% trans 'Status' %}: In progress</p>
 
-                {% if page.start_date %}
-                <p>
-                    {% trans 'Start' %}: {{ page.start_date }}
-                </p>
-                {% endif %}
-                {% if page.end_date %}
-                <p>
-                    {% trans 'End' %}: {{ page.end_date }}
-                </p>
-                {% endif %}
+        <div class="content">
+            <div class="container">
+                <article class="row">
+                    <div class="col-md-3">
+                        <p class="date">
+                            {{ page.date }}
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                        <h2>
+                            <a href="{% pageurl page %}">
+                                {{ page.trans_title }}
+                            </a>
+                        </h2>
 
-                <p>{% trans 'In collaboration with' %}:</p>
-
-                <ul class="list-unstyled">
-                {% for collaboration in page.collaborations.all %}
-                    <li>
-                        {% if collaboration.url %}
-                        <a href="{{ collaboration.url }}">
-                            {{ collaboration.name }}
-                        </a>
-                        {% else %}
-                        {{ collaboration.name }}
-                        {% endif %}
-                    </li>
-                {% endfor %}
-                </ul>
-
-                <p>{% trans 'Links' %}:</p>
-
-                <ul class="list-unstyled">
-                {% for link in page.related_links.all %}
-                    <li>
-                        <a href="{{ link.url }}">
-                            {{ link.title }}
-                        </a>
-                    </li>
-                {% endfor %}
-                </ul>
-            </div>
-            <div class="col-md-9">
-                {{ page.trans_body|richtext }}
+                        {{ page.trans_body|richtext }}
+                    </div>
+                </article>
             </div>
         </div>
     </div>

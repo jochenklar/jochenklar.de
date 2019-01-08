@@ -44,11 +44,6 @@ header {
 main {
     padding-bottom: $footer-height;
 
-    .content {
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
-
     .sidebar {
         font-size: 13px;
 
@@ -95,6 +90,11 @@ p {
     margin-bottom: 10px;
 }
 
+.content {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
 .image {
     position: relative;
 
@@ -125,5 +125,11 @@ p {
     }
     &.right {
         float: right;
+    }
+}
+
+.blog {
+    .date {
+        margin-top: 60px;
     }
 }
