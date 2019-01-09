@@ -57,6 +57,12 @@ class BlogIndexPage(SingletonMixin, Page):
 
     subpage_types = ['blog.BlogPage']
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['blogpages'] = self.get_children().live().order_by('-first_published_at')
+
+        return context
+
 
 class BlogPage(Page):
 

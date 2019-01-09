@@ -21,24 +21,26 @@
                     </div>
                 </section>
 
-                {% for post in page.get_children %}
+                {% for page in blogpages %}
+                {% with post=page.specific %}
 
                 <article class="row">
                     <div class="col-md-3">
                         <p class="date">
-                            {{ post.specific.date }}
+                            {{ post.date }}
                         </p>
                     </div>
                     <div class="col-md-9">
                         <h2>
                             <a href="{% pageurl post %}">
-                                {{ post.specific.trans_title }}
+                                {{ post.trans_title }}
                             </a>
                         </h2>
 
-                        {{ post.specific.trans_body|richtext }}
+                        {{ post.trans_body|richtext }}
                     </div>
                 </article>
+                {% endwith %}
                 {% endfor %}
             </div>
         </div>
