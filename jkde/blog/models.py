@@ -71,8 +71,6 @@ class BlogPage(Page):
     body = RichTextField(blank=True)
     body_de = RichTextField(blank=True)
 
-    date = models.DateField(blank=True, null=True)
-
     trans_title = TranslatedTitleField('title')
     trans_body = TranslatedTextField('body')
 
@@ -91,7 +89,6 @@ class BlogPage(Page):
         FieldPanel('body_de', classname='full'),
     ]
     promote_panels = Page.promote_panels + [
-        FieldPanel('date'),
         InlinePanel('related_links', label='Related links'),
     ]
 

@@ -27,7 +27,7 @@
                 <article class="row">
                     <div class="col-md-3">
                         <p class="date">
-                            {{ post.date }}
+                            {{ post.first_published_at|date:"DATE_FORMAT" }}
                         </p>
                     </div>
                     <div class="col-md-9">

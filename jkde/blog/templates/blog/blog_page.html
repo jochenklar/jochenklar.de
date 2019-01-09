@@ -8,18 +8,12 @@
 {% block main %}
 
     <div class="blog">
-        <div class="image">
-            {% image page.image fill-1920x640 class="img-fluid" %}
-
-            <div class="credit">{{ page.image_credit|richtext }}</div>
-        </div>
-
         <div class="content">
             <div class="container">
                 <article class="row">
                     <div class="col-md-3">
                         <p class="date">
-                            {{ page.date }}
+                            {{ page.first_published_at|date:"DATE_FORMAT" }}
                         </p>
                     </div>
                     <div class="col-md-9">
