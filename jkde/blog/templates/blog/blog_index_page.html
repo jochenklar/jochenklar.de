@@ -1,7 +1,10 @@
 {% extends 'core/base.html' %}
 
+{% load i18n %}
+
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
+{% load wagtailroutablepage_tags %}
 
 {% block main %}
 
@@ -21,7 +24,7 @@
                     </div>
                 </section>
 
-                {% for page in blogpages %}
+                {% for page in paginator %}
                 {% with post=page.specific %}
 
                 <article class="row">
@@ -42,6 +45,26 @@
                 </article>
                 {% endwith %}
                 {% endfor %}
+
+                <section class="row">
+                    <div class="col-3"></div>
+                    <div class="col-9">
+                        {% if paginator.has_previous %}
+                        <p class="float-left">
+                            <a href="{% routablepageurl page 'pagination' paginator.previous_page_number %}">
+                                {% trans 'Previous page' %}
+                            </a>
+                        </p>
+                        {% endif %}
+                        {% if paginator.has_next %}
+                        <p class="float-right">
+                            <a href="{% routablepageurl page 'pagination' paginator.next_page_number %}">
+                                {% trans 'Next page' %}
+                            </a>
+                        </p>
+                        {% endif %}
+                    </div>
+                </section>
             </div>
         </div>
     </div>

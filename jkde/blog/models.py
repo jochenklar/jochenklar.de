@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from modelcluster.fields import ParentalKey
 
@@ -17,11 +18,13 @@ from wagtail.search import index
 
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
+from wagtail.contrib.routable_page.models import RoutablePageMixin, route
+
 from jkde.core.models import SingletonMixin
 from jkde.core.fields import TranslatedTitleField, TranslatedTextField
 
 
-class BlogIndexPage(SingletonMixin, Page):
+class BlogIndexPage(SingletonMixin, RoutablePageMixin, Page):
 
     title_de = models.CharField(max_length=255, blank=True)
 
@@ -57,11 +60,24 @@ class BlogIndexPage(SingletonMixin, Page):
 
     subpage_types = ['blog.BlogPage']
 
-    def get_context(self, request):
+    def get_context(self, request, page=1):
         context = super().get_context(request)
-        context['blogpages'] = self.get_children().live().order_by('-first_published_at')
+
+        queryset = self.get_children().live().order_by('-first_published_at')
+        paginator = Paginator(queryset, 5)
+
+        try:
+            context['paginator'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['paginator'] = paginator.page(1)
+        except EmptyPage:
+            context['paginator'] = paginator.page(paginator.num_pages)
 
         return context
+
+    @route(r'^page/(\d+)/$', name='pagination')
+    def pagination_route(self, request, page):
+        return self.index_route(request, page)
 
 
 class BlogPage(Page):
