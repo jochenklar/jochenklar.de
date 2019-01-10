@@ -81,9 +81,8 @@ class TranslatedStreamField(TranslatedField):
             if en:
                 return en
             else:
-                # inject the tranlation note into StreamValue.render_as_block
+                # inject the translation note into StreamValue.render_as_block
                 de = self.get_de(instance)
-                print(de)
                 de.render_as_block = lambda context=None: self.note_de + \
                     de.stream_block.render(de, context=context)
 
@@ -95,7 +94,7 @@ class TranslatedStreamField(TranslatedField):
             if de:
                 return de
             else:
-                # inject the tranlation note into StreamValue.render_as_block
+                # inject the translation note into StreamValue.render_as_block
                 en = self.get_en(instance)
                 en.render_as_block = lambda context=None: self.note_en + \
                     en.stream_block.render(en, context=context)
