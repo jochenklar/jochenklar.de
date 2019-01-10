@@ -1,6 +1,7 @@
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 
+
 class TranslatedField(object):
 
     def __init__(self, field_name):
@@ -15,34 +16,6 @@ class TranslatedField(object):
 
     def get_de(self, instance):
         return getattr(instance, self.field_name + '_de')
-
-    # def __get__(self, instance, owner):
-    #     if translation.get_language() == 'de':
-    #         value = getattr(instance, self.field_name + '_de')
-
-    #         if value in [None, '', '<p></p>']:
-    #             value = getattr(instance, self.field_name)
-
-    #             if self.note:
-    #                 return '<p class="text-secondary">%s</p>%s' % (self.note_en, value)
-    #             else:
-    #                 return value
-    #         else:
-    #             return value
-
-    #     else:
-    #         value = getattr(instance, self.field_name)
-
-    #         if value in [None, '<p></p>']:
-    #             value = getattr(instance, self.field_name + '_de')
-
-    #             if self.note:
-    #                 return '<p class="text-secondary">%s</p>%s' % (self.note_de, value)
-    #             else:
-    #                 return value
-    #         else:
-    #             r
-    #         eturn value
 
 
 class TranslatedTitleField(TranslatedField):
