@@ -4,15 +4,19 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from modelcluster.fields import ParentalKey
 
 from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import RichTextField
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.blocks import RichTextBlock, RawHTMLBlock
+
+from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.images.blocks import ImageChooserBlock
 
 from wagtail.admin.edit_handlers import (
     FieldPanel,
+    StreamFieldPanel,
     InlinePanel,
     TabbedInterface,
     ObjectList
 )
-from wagtail.images.edit_handlers import ImageChooserPanel
 
 from wagtail.search import index
 
@@ -21,7 +25,7 @@ from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 from jkde.core.models import SingletonMixin
-from jkde.core.fields import TranslatedTitleField, TranslatedTextField
+from jkde.core.fields import TranslatedTitleField, TranslatedTextField, TranslatedStreamField
 
 
 class BlogIndexPage(SingletonMixin, RoutablePageMixin, Page):
@@ -84,11 +88,17 @@ class BlogPage(Page):
 
     title_de = models.CharField(max_length=255, blank=True)
 
-    body = RichTextField(blank=True)
-    body_de = RichTextField(blank=True)
+    BODY_BLOCKS = [
+        ('richtext', RichTextBlock()),
+        ('html', RawHTMLBlock()),
+        ('image', ImageChooserBlock()),
+    ]
+
+    body = StreamField(BODY_BLOCKS, blank=True)
+    body_de = StreamField(BODY_BLOCKS, blank=True)
 
     trans_title = TranslatedTitleField('title')
-    trans_body = TranslatedTextField('body')
+    trans_body = TranslatedStreamField('body')
 
     search_fields = Page.search_fields + [
         index.SearchField('title_de'),
@@ -98,11 +108,11 @@ class BlogPage(Page):
 
     content_panels = [
         FieldPanel('title', classname="full title"),
-        FieldPanel('body', classname='full'),
+        StreamFieldPanel('body'),
     ]
     content_de_panels = [
         FieldPanel('title_de', classname="full title"),
-        FieldPanel('body_de', classname='full'),
+        StreamFieldPanel('body_de'),
     ]
     promote_panels = Page.promote_panels + [
         InlinePanel('related_links', label='Related links'),

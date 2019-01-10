@@ -40,7 +40,7 @@
                             </a>
                         </h2>
 
-                        {{ post.trans_body|richtext }}
+                        {% include_block page.body %}
                     </div>
                 </article>
                 {% endwith %}
