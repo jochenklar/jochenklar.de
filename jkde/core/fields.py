@@ -81,7 +81,13 @@ class TranslatedStreamField(TranslatedField):
             if en:
                 return en
             else:
-                return self.get_de(instance)
+                # inject the tranlation note into StreamValue.render_as_block
+                de = self.get_de(instance)
+                print(de)
+                de.render_as_block = lambda context=None: self.note_de + \
+                    de.stream_block.render(de, context=context)
+
+                return de
 
         elif self.is_de:
             de = self.get_de(instance)
@@ -89,15 +95,12 @@ class TranslatedStreamField(TranslatedField):
             if de:
                 return de
             else:
-                value = self.get_en(instance)
+                # inject the tranlation note into StreamValue.render_as_block
+                en = self.get_en(instance)
+                en.render_as_block = lambda context=None: self.note_en + \
+                    en.stream_block.render(en, context=context)
 
-                # inject the tranlation note
-                value.stream_data = [{
-                    'type': 'richtext',
-                    'value': self.note_de
-                }] + value.stream_data
-
-                return value
+                return en
 
         else:
             raise RuntimeError('Language not supported.')
