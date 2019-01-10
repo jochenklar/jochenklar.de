@@ -12,6 +12,10 @@ def run_migration(apps, schema_editor):
             page.body = [('richtext', RichText(page.body.raw_text))]
             page.save()
 
+        if page.body_de.raw_text and not page.body_de:
+            page.body_de = [('richtext', RichText(page.body_de.raw_text))]
+            page.save()
+
 
 class Migration(migrations.Migration):
 
