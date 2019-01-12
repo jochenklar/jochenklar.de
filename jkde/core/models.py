@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from modelcluster.models import ClusterableModel
 from modelcluster.fields import ParentalKey
@@ -20,6 +21,8 @@ from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 
+from wagtail.contrib.routable_page.models import RoutablePageMixin, route
+
 from jkde.core.fields import TranslatedTitleField, TranslatedTextField
 
 
@@ -29,6 +32,28 @@ class SingletonMixin(object):
     def can_create_at(cls, parent):
         # Only create one Singleton
         return super().can_create_at(parent) and not cls.objects.exists()
+
+
+class PaginatorMixin(RoutablePageMixin):
+
+    def get_context(self, request, page=1):
+        context = super().get_context(request)
+
+        queryset = self.get_children().live().order_by('-first_published_at')
+        paginator = Paginator(queryset, 5)
+
+        try:
+            context['paginator'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['paginator'] = paginator.page(1)
+        except EmptyPage:
+            context['paginator'] = paginator.page(paginator.num_pages)
+
+        return context
+
+    @route(r'^page/(\d+)/$', name='pagination')
+    def pagination_route(self, request, page):
+        return self.index_route(request, page)
 
 
 class HomePage(SingletonMixin, Page):
