@@ -18,8 +18,8 @@
         <div class="content">
             <div class="container">
                 <section class="row">
-                    <div class="col-3"></div>
-                    <div class="col-9">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-9">
                         <h1>{{ page.trans_title }}</h1>
 
                         <p class="intro">
@@ -31,31 +31,48 @@
                 {% for page in paginator %}
                 {% with project=page.specific %}
 
-                <article class="row">
-                    <div class="col-3 sidebar">
-                        <p class="date">
-                            {{ project.start_date|date:"SHORT_DATE_FORMAT" }}{% if project.end_date %} - {{ project.end_date|date:"SHORT_DATE_FORMAT" }}{% endif %}
-                        </p>
-                        <p>
-                            {% trans 'Status' %}: {{ project.get_status_display }}
-                        </p>
+                <article>
+                    <div class="row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-9">
+                            <h2>
+                                <a href="{% pageurl project %}">
+                                    {{ project.trans_title }}
+                                </a>
+                            </h2>
+                        </div>
                     </div>
-                    <div class="col-9">
-                        <h2>
-                            <a href="{% pageurl project %}">
-                                {{ project.trans_title }}
-                            </a>
-                        </h2>
 
-                        {{ project.trans_teaser|richtext }}
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="meta">
+                                {% if not project.end_date %}
+                                <p>
+                                    {% trans 'Start' %} {{ project.start_date|date:"SHORT_DATE_FORMAT" }}
+                                </p>
+                                {% endif %}
+                                {% if project.end_date %}
+                                <p>
+                                    {{ project.start_date|date:"SHORT_DATE_FORMAT" }} -
+                                    {{ project.end_date|date:"SHORT_DATE_FORMAT" }}
+                                </p>
+                                {% endif %}
+                                <p>
+                                    {% trans 'Status' %}: {{ project.get_status_display }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            {{ project.trans_teaser|richtext }}
+                        </div>
                     </div>
                 </article>
                 {% endwith %}
                 {% endfor %}
 
                 <section class="row">
-                    <div class="col-3"></div>
-                    <div class="col-9">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-9">
                         {% if paginator.has_previous %}
                         <p class="float-left">
                             <a href="{% routablepageurl page 'pagination' paginator.previous_page_number %}">

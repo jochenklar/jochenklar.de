@@ -1,3 +1,7 @@
+$width-sm: 576px;
+$width-md: 768px;
+$width-lg: 992px;
+
 $footer-height: 40px;
 
 html,
@@ -11,8 +15,8 @@ body {
 }
 
 header {
-    height: 140px;
     padding-top: 60px;
+    padding-bottom: 20px;
 
     a.brand {
         display: block;
@@ -25,8 +29,7 @@ header {
     }
 
     nav {
-        float: right;
-        margin-top: 30px;
+        padding-top: 10px;
 
         ul {
             list-style: none;
@@ -35,22 +38,22 @@ header {
 
             li {
                 display: inline-block;
-                margin-left: 10px;
+                margin-right: 10px;
             }
+            li:last-child {
+                margin-right: 0;
+            }
+        }
+
+        @media(min-width: $width-lg) {
+            float: right;
+            padding-top: 30px;
         }
     }
 }
 
 main {
     padding-bottom: $footer-height;
-
-    .sidebar {
-        font-size: 13px;
-
-        p, ul, ol {
-            margin-bottom: 5px;
-        }
-    }
 }
 
 footer {
@@ -132,9 +135,15 @@ p {
     }
 }
 
-.blog,
-.projects {
-    .date {
-        margin-top: 60px;
+.meta {
+    font-size: 13px;
+    line-height: 16px;
+
+    p, ul, ol {
+        margin-bottom: 5px;
+    }
+
+    @media(min-width: $width-lg) {
+
     }
 }

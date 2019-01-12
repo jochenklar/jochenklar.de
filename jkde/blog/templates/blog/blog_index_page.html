@@ -27,22 +27,30 @@
                 {% for page in paginator %}
                 {% with post=page.specific %}
 
-                <article class="row">
-                    <div class="col-md-3">
-                        <p class="date">
-                            {{ post.first_published_at|date:"DATE_FORMAT" }}
-                        </p>
+                <article>
+                    <div class="row">
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-9">
+                            <h2>
+                                <a href="{% pageurl post %}">
+                                    {{ post.trans_title }}
+                                </a>
+                            </h2>
+                        </div>
                     </div>
-                    <div class="col-md-9">
-                        <h2>
-                            <a href="{% pageurl post %}">
-                                {{ post.trans_title }}
-                            </a>
-                        </h2>
-
-                        {% include_block post.trans_body %}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p class="date">
+                                {{ post.first_published_at|date:"DATE_FORMAT" }}
+                            </p>
+                        </div>
+                        <div class="col-md-9">
+                            {% include_block post.trans_body %}
+                        </div>
                     </div>
                 </article>
+
                 {% endwith %}
                 {% endfor %}
 

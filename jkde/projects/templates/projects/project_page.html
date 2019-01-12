@@ -18,47 +18,61 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 sidebar">
-                <p>{% trans 'Status' %}: In progress</p>
+            <div class="col-md-3">
+                <div class="meta">
+                    <p>{% trans 'Status' %}: In progress</p>
 
-                {% if page.start_date %}
-                <p>
-                    {% trans 'Start' %}: {{ page.start_date }}
-                </p>
-                {% endif %}
-                {% if page.end_date %}
-                <p>
-                    {% trans 'End' %}: {{ page.end_date }}
-                </p>
-                {% endif %}
+                    {% if page.start_date %}
+                    <p>
+                        {% trans 'Start' %}: {{ page.start_date }}
+                    </p>
+                    {% endif %}
+                    {% if page.end_date %}
+                    <p>
+                        {% trans 'End' %}: {{ page.end_date }}
+                    </p>
+                    {% endif %}
 
-                <p>{% trans 'In collaboration with' %}:</p>
+                    {% with page.collaborations.all as collaborations %}
+                    {% if collaborations %}
 
-                <ul class="list-unstyled">
-                {% for collaboration in page.collaborations.all %}
-                    <li>
-                        {% if collaboration.url %}
-                        <a href="{{ collaboration.url }}">
+                    <p>{% trans 'In collaboration with' %}:</p>
+
+                    <ul class="list-unstyled">
+                    {% for collaboration in collaborations %}
+                        <li>
+                            {% if collaboration.url %}
+                            <a href="{{ collaboration.url }}">
+                                {{ collaboration.name }}
+                            </a>
+                            {% else %}
                             {{ collaboration.name }}
-                        </a>
-                        {% else %}
-                        {{ collaboration.name }}
-                        {% endif %}
-                    </li>
-                {% endfor %}
-                </ul>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                    </ul>
 
-                <p>{% trans 'Links' %}:</p>
+                    {% endif %}
+                    {% endwith %}
 
-                <ul class="list-unstyled">
-                {% for link in page.related_links.all %}
-                    <li>
-                        <a href="{{ link.url }}">
-                            {{ link.title }}
-                        </a>
-                    </li>
-                {% endfor %}
-                </ul>
+                    {% with page.related_links.all as related_links %}
+                    {% if related_links %}
+
+                    <p>{% trans 'Links' %}:</p>
+
+                    <ul class="list-unstyled">
+                    {% for link in page.related_links.all %}
+                        <li>
+                            <a href="{{ link.url }}">
+                                {{ link.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+
+                    {% endif %}
+                    {% endwith %}
+                </div>
             </div>
             <div class="col-md-9">
                 {{ page.trans_teaser|richtext }}

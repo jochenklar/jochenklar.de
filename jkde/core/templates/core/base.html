@@ -41,19 +41,26 @@
         <div class="wrapper">
             <header>
                 <div class="container">
-                    <a class="brand" href="/">{{ self.get_site.site_name }}</a>
-
-                    {% with settings.core.Settings.header_navigation as nav %}
-                    <nav>
-                        <ul>
-                            {% for item in nav.items.all %}
-                            <li>
-                                <a href="{{ item.page.url }}">{{ item.page.specific.trans_title }}</a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </nav>
-                    {% endwith %}
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <a class="brand" href="/">{{ self.get_site.site_name }}</a>
+                        </div>
+                        <div class="col-lg-8">
+                            {% with settings.core.Settings.header_navigation as nav %}
+                            <nav>
+                                <ul>
+                                    {% for item in nav.items.all %}
+                                    <li>
+                                        <a href="{{ item.page.url }}">
+                                            {{ item.page.specific.trans_title }}
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                            {% endwith %}
+                        </div>
+                    </div>
                 </div>
             </header>
 
