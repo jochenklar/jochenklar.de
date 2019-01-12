@@ -36,11 +36,14 @@ class SingletonMixin(object):
 
 class PaginatorMixin(RoutablePageMixin):
 
+    pagination_order = '-first_published_at'
+    page_size = 5
+
     def get_context(self, request, page=1):
         context = super().get_context(request)
 
-        queryset = self.get_children().live().order_by('-first_published_at')
-        paginator = Paginator(queryset, 5)
+        queryset = self.get_children().live().order_by(self.pagination_order)
+        paginator = Paginator(queryset, self.page_size)
 
         try:
             context['paginator'] = paginator.page(page)

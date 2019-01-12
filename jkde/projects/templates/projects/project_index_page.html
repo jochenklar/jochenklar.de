@@ -1,38 +1,77 @@
 {% extends 'core/base.html' %}
 
+{% load i18n %}
+
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
+{% load wagtailroutablepage_tags %}
 
 {% block main %}
 
-    <div class="image">
-        {% image page.image fill-1920x640 class="img-fluid" %}
+    <div class="projects">
+        <div class="image">
+            {% image page.image fill-1920x640 class="img-fluid" %}
 
-        <div class="credit">{{ page.image_credit|richtext }}</div>
-    </div>
+            <div class="credit">{{ page.image_credit|richtext }}</div>
+        </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-            </div>
-            <div class="col-md-9 content">
-                <h1>{{ page.trans_title }}</h1>
+        <div class="content">
+            <div class="container">
+                <section class="row">
+                    <div class="col-3"></div>
+                    <div class="col-9">
+                        <h1>{{ page.trans_title }}</h1>
 
-                <p class="blog-intro">
-                    {{ page.trans_intro|richtext }}
-                </p>
+                        <p class="intro">
+                            {{ page.trans_intro|richtext }}
+                        </p>
+                    </div>
+                </section>
 
-                {% for post in page.get_children %}
-                <div class="post">
-                    <h2>
-                        <a href="{% pageurl post %}">
-                            {{ post.specific.trans_title }}
-                        </a>
-                    </h2>
+                {% for page in paginator %}
+                {% with project=page.specific %}
 
-                    {{ post.specific.trans_body|richtext }}
-                </div>
+                <article class="row">
+                    <div class="col-3 sidebar">
+                        <p class="date">
+                            {{ project.start_date|date:"SHORT_DATE_FORMAT" }}{% if project.end_date %} - {{ project.end_date|date:"SHORT_DATE_FORMAT" }}{% endif %}
+                        </p>
+                        <p>
+                            {% trans 'Status' %}: {{ project.get_status_display }}
+                        </p>
+                    </div>
+                    <div class="col-9">
+                        <h2>
+                            <a href="{% pageurl project %}">
+                                {{ project.trans_title }}
+                            </a>
+                        </h2>
+
+                        {{ project.trans_teaser|richtext }}
+                    </div>
+                </article>
+                {% endwith %}
                 {% endfor %}
+
+                <section class="row">
+                    <div class="col-3"></div>
+                    <div class="col-9">
+                        {% if paginator.has_previous %}
+                        <p class="float-left">
+                            <a href="{% routablepageurl page 'pagination' paginator.previous_page_number %}">
+                                {% trans 'Newer projects' %}
+                            </a>
+                        </p>
+                        {% endif %}
+                        {% if paginator.has_next %}
+                        <p class="float-right">
+                            <a href="{% routablepageurl page 'pagination' paginator.next_page_number %}">
+                                {% trans 'Older projects' %}
+                            </a>
+                        </p>
+                        {% endif %}
+                    </div>
+                </section>
             </div>
         </div>
     </div>
