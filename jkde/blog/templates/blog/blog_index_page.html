@@ -52,14 +52,14 @@
                         {% if paginator.has_previous %}
                         <p class="float-left">
                             <a href="{% routablepageurl page 'pagination' paginator.previous_page_number %}">
-                                {% trans 'Previous page' %}
+                                {% trans 'Newer posts' %}
                             </a>
                         </p>
                         {% endif %}
                         {% if paginator.has_next %}
                         <p class="float-right">
                             <a href="{% routablepageurl page 'pagination' paginator.next_page_number %}">
-                                {% trans 'Next page' %}
+                                {% trans 'Older posts' %}
                             </a>
                         </p>
                         {% endif %}
