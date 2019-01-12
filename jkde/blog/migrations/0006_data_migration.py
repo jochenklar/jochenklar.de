@@ -9,12 +9,14 @@ def run_migration(apps, schema_editor):
 
     for page in BlogPage.objects.all():
         if page.body.raw_text and not page.body:
-            page.body = [('richtext', RichText(page.body.raw_text))]
-            page.save()
+            if page.body.raw_text not in ['', '<p></p>']:
+                page.body = [('richtext', RichText(page.body.raw_text))]
+                page.save()
 
         if page.body_de.raw_text and not page.body_de:
-            page.body_de = [('richtext', RichText(page.body_de.raw_text))]
-            page.save()
+            if page.body_de.raw_text not in ['', '<p></p>']:
+                page.body_de = [('richtext', RichText(page.body_de.raw_text))]
+                page.save()
 
 
 class Migration(migrations.Migration):
