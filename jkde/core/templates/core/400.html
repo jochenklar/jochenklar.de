@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+
+{% block main %}
+
+<div class="container">
+    <h1>{% trans 'Bad request' %}</h1>
+
+    <p>{% trans 'There is something wrong with your HTTP request.' %}</p>
+</div>
+
+{% endblock %}

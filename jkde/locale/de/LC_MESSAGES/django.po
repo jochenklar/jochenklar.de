@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-15 12:09+0100\n"
-"PO-Revision-Date: 2019-01-15 12:11+0100\n"
+"POT-Creation-Date: 2019-01-15 14:05+0100\n"
+"PO-Revision-Date: 2019-01-15 14:08+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
 "X-Generator: Poedit 1.8.11\n"
 
 #: blog/templates/blog/blog_index_page.html:63
@@ -34,6 +34,34 @@ msgstr "Leider ist dieser Inhalt nur auf Englisch verfügbar."
 msgid "Sorry, this content is only available in German."
 msgstr "Leider ist dieser Inhalt nur auf Deutsch verfügbar."
 
+#: core/templates/core/400.html:7
+msgid "Bad request"
+msgstr "Fehlerhafte Anfrage"
+
+#: core/templates/core/400.html:9
+msgid "There is something wrong with your HTTP request."
+msgstr "Mit Ihrem HTTP-Request ist etwas nicht in Ordnung."
+
+#: core/templates/core/403.html:7 core/templates/core/404.html:7
+msgid "Not found"
+msgstr "Nicht gefunden"
+
+#: core/templates/core/403.html:9
+msgid "You are not allowed to access this URL."
+msgstr "Sie dürfen nicht auf diese URL zugreifen."
+
+#: core/templates/core/404.html:9
+msgid "The requested URL was not found on this server."
+msgstr "Die angeforderte URL wurde auf diesem Server nicht gefunden."
+
+#: core/templates/core/500.html:7
+msgid "Internal server error"
+msgstr "Interner Serverfehler"
+
+#: core/templates/core/500.html:9
+msgid "There was an error with the requested URL."
+msgstr "Es ist ein Fehler mit der angeforderten URL aufgetreten."
+
 #: core/templates/core/base.html:80
 msgid "German"
 msgstr "Deutsch"
@@ -51,12 +79,12 @@ msgid "completed"
 msgstr "abgeschlossen"
 
 #: projects/templates/projects/project_index_page.html:51
-#: projects/templates/projects/project_page.html:25
+#: projects/templates/projects/project_page.html:27
 msgid "Start"
 msgstr "Start"
 
 #: projects/templates/projects/project_index_page.html:61
-#: projects/templates/projects/project_page.html:34
+#: projects/templates/projects/project_page.html:36
 msgid "Status"
 msgstr "Status"
 
@@ -68,18 +96,18 @@ msgstr "Neuere Projekte"
 msgid "Older projects"
 msgstr "Ältere Projekte"
 
-#: projects/templates/projects/project_page.html:30
+#: projects/templates/projects/project_page.html:32
 msgid "End"
 msgstr "Ende"
 
-#: projects/templates/projects/project_page.html:45
+#: projects/templates/projects/project_page.html:47
 msgid "Collaboration"
 msgstr "Zusammenarbeit"
 
-#: projects/templates/projects/project_page.html:53
+#: projects/templates/projects/project_page.html:55
 msgid "Publications"
 msgstr "Veröffentlichungen"
 
-#: projects/templates/projects/project_page.html:61
+#: projects/templates/projects/project_page.html:63
 msgid "References"
 msgstr "Weblinks"
