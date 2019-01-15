@@ -117,6 +117,75 @@ STATICFILES_DIRS = (
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FROM = 'info@example.com'
 
+# logging
+LOG_DIR = os.getenv('DJANGO_LOG_DIR', os.path.join(BASE_DIR, 'log'))
+LOG_LEVEL = os.getenv('DJANGO_LOG_LEVEL', 'INFO')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue'
+        }
+    },
+    'formatters': {
+        'default': {
+            'format': '[%(asctime)s] %(levelname)s: %(message)s'
+        },
+        'name': {
+            'format': '[%(asctime)s] %(levelname)s %(name)s: %(message)s'
+        },
+        'console': {
+            'format': '[%(asctime)s] %(message)s'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'error_log': {
+            'level': 'ERROR',
+            'class':'logging.FileHandler',
+            'filename': os.path.join(LOG_DIR, 'error.log'),
+            'formatter': 'default'
+        },
+        'jkde_log': {
+            'level': 'DEBUG',
+            'class':'logging.FileHandler',
+            'filename': os.path.join(LOG_DIR, 'jkde.log'),
+            'formatter': 'name'
+        },
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'console'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['mail_admins', 'error_log'],
+            'level': 'ERROR',
+            'propagate': True
+        },
+        'jkde': {
+            'handlers': ['jkde_log'],
+            'level': LOG_LEVEL,
+            'propagate': False
+        }
+    }
+}
+
 # settings for wagtail
 WAGTAIL_SITE_NAME = 'jochenklar.de'
 
