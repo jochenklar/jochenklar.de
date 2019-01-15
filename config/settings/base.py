@@ -156,7 +156,7 @@ LOGGING = {
         },
         'jkde_log': {
             'level': 'DEBUG',
-            'class':'logging.FileHandler',
+            'class': 'logging.FileHandler',
             'filename': 'jkde.log',
             'formatter': 'name'
         },

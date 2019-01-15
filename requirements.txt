@@ -1,8 +1,10 @@
 Django
 wagtail
+gunicorn
 
 django-extensions
 django-vendor-files
 django-libsass
+django-redis
 
 psycopg2-binary
