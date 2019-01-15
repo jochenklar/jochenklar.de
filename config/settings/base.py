@@ -117,9 +117,8 @@ STATICFILES_DIRS = (
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FROM = 'info@example.com'
 
-# logging
-LOG_DIR = os.getenv('DJANGO_LOG_DIR', os.path.join(BASE_DIR, 'log'))
-LOG_LEVEL = os.getenv('DJANGO_LOG_LEVEL', 'INFO')
+LOG_DIR = os.path.join(BASE_DIR, 'log')
+LOG_LEVEL = 'INFO'
 
 LOGGING = {
     'version': 1,
@@ -151,14 +150,14 @@ LOGGING = {
         },
         'error_log': {
             'level': 'ERROR',
-            'class':'logging.FileHandler',
-            'filename': os.path.join(LOG_DIR, 'error.log'),
+            'class': 'logging.FileHandler',
+            'filename': 'error.log',
             'formatter': 'default'
         },
         'jkde_log': {
             'level': 'DEBUG',
             'class':'logging.FileHandler',
-            'filename': os.path.join(LOG_DIR, 'jkde.log'),
+            'filename': 'jkde.log',
             'formatter': 'name'
         },
         'console': {
@@ -180,7 +179,7 @@ LOGGING = {
         },
         'jkde': {
             'handlers': ['jkde_log'],
-            'level': LOG_LEVEL,
+            'level': 'LOG_LEVEL',
             'propagate': False
         }
     }
