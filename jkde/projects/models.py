@@ -23,7 +23,7 @@ from wagtail.search import index
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from jkde.core.models import SingletonMixin, PaginatorMixin
-from jkde.core.fields import TranslatedTitleField, TranslatedTextField, TranslatedStreamField
+from jkde.core.fields import TranslatedTextField, TranslatedStreamField
 
 
 class ProjectIndexPage(SingletonMixin, PaginatorMixin, Page):
@@ -41,7 +41,7 @@ class ProjectIndexPage(SingletonMixin, PaginatorMixin, Page):
     color = models.ForeignKey(
         'core.Color', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
-    trans_title = TranslatedTitleField('title')
+    trans_title = TranslatedTextField('title')
     trans_intro = TranslatedTextField('intro')
 
     content_panels = [
@@ -91,6 +91,15 @@ class ProjectPage(Page):
     body = StreamField(BODY_BLOCKS, blank=True)
     body_de = StreamField(BODY_BLOCKS, blank=True)
 
+    collaboration = RichTextField(blank=True)
+    collaboration_de = RichTextField(blank=True)
+
+    publications = RichTextField(blank=True)
+    publications_de = RichTextField(blank=True)
+
+    references = RichTextField(blank=True)
+    references_de = RichTextField(blank=True)
+
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
 
@@ -103,10 +112,13 @@ class ProjectPage(Page):
 
     status = models.CharField(max_length=32, choices=STATUS_CHOICES, default=STATUS_IN_PROGRESS)
 
-    trans_title = TranslatedTitleField('title')
-    trans_subtitle = TranslatedTitleField('subtitle')
-    trans_teaser = TranslatedTitleField('teaser')
+    trans_title = TranslatedTextField('title')
+    trans_subtitle = TranslatedTextField('subtitle')
+    trans_teaser = TranslatedTextField('teaser')
     trans_body = TranslatedStreamField('body')
+    trans_collaboration = TranslatedTextField('collaboration')
+    trans_publications = TranslatedTextField('publications')
+    trans_references = TranslatedTextField('references')
 
     search_fields = Page.search_fields + [
         index.SearchField('title_de'),
@@ -123,19 +135,23 @@ class ProjectPage(Page):
         FieldPanel('subtitle', classname="full title"),
         FieldPanel('teaser', classname='full'),
         StreamFieldPanel('body', classname='full'),
+        FieldPanel('collaboration', classname='full'),
+        FieldPanel('publications', classname='full'),
+        FieldPanel('references', classname='full'),
     ]
     content_de_panels = [
         FieldPanel('title_de', classname="full title"),
         FieldPanel('subtitle_de', classname="full title"),
         FieldPanel('teaser_de', classname='full'),
         StreamFieldPanel('body_de', classname='full'),
+        FieldPanel('collaboration_de', classname='full'),
+        FieldPanel('publications_de', classname='full'),
+        FieldPanel('references_de', classname='full'),
     ]
     misc_panels = [
         FieldPanel('status'),
         FieldPanel('start_date'),
         FieldPanel('end_date'),
-        InlinePanel('collaborations', label='Collaborations'),
-        InlinePanel('related_links', label='Related links'),
     ]
 
     edit_handler = TabbedInterface([
@@ -151,29 +167,3 @@ class ProjectPage(Page):
     @property
     def color(self):
         return self.get_parent().specific.color
-
-
-class ProjectPageCollaboration(Orderable):
-
-    page = ParentalKey('projects.ProjectPage', on_delete=models.CASCADE, related_name='collaborations')
-
-    name = models.CharField(max_length=255)
-    url = models.URLField('External link', blank=True)
-
-    panels = [
-        FieldPanel('name'),
-        FieldPanel('url'),
-    ]
-
-
-class ProjectPageRelatedLink(Orderable):
-
-    page = ParentalKey('projects.ProjectPage', on_delete=models.CASCADE, related_name='related_links')
-
-    title = models.CharField(max_length=255)
-    url = models.URLField('External link', blank=True)
-
-    panels = [
-        FieldPanel('title'),
-        FieldPanel('url'),
-    ]

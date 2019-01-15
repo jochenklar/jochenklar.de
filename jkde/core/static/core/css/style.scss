@@ -135,6 +135,23 @@ p {
     }
 }
 
+.block-image {
+    text-align: center;
+
+    img {
+        display: block;
+
+        max-width: 100%;
+        height: auto;
+
+        margin: 20px auto;
+
+        @media(min-width: $width-lg) {
+            max-width: 66%;
+        }
+    }
+}
+
 .meta {
     font-size: 13px;
     line-height: 16px;

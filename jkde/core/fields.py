@@ -9,8 +9,9 @@ class TranslatedField(object):
     note_text_en = _('Sorry, this content is only available in English.')
     note_text_de = _('Sorry, this content is only available in German.')
 
-    def __init__(self, field_name):
+    def __init__(self, field_name, note=False):
         self.field_name = field_name
+        self.note = note
 
     @property
     def is_en(self):
@@ -29,22 +30,18 @@ class TranslatedField(object):
         return self.note_template % self.note_text_de
 
     def get_en(self, instance):
-        return getattr(instance, self.field_name)
+        en = getattr(instance, self.field_name)
+        if en in [None, '', '<p></p>']:
+            return None
+        else:
+            return en
 
     def get_de(self, instance):
-        return getattr(instance, self.field_name + '_de')
-
-
-class TranslatedTitleField(TranslatedField):
-
-    def __get__(self, instance, owner):
-
-        if self.is_en:
-            return self.get_en(instance)
-        elif self.is_de:
-            return self.get_de(instance) or self.get_en(instance)
+        de = getattr(instance, self.field_name + '_de')
+        if de in [None, '', '<p></p>']:
+            return None
         else:
-            raise RuntimeError('Language not supported.')
+            return de
 
 
 class TranslatedTextField(TranslatedField):
@@ -54,18 +51,22 @@ class TranslatedTextField(TranslatedField):
         if self.is_en:
             en = self.get_en(instance)
 
-            if en not in [None, '', '<p></p>']:
+            if en:
                 return en
-            else:
+            elif self.note:
                 return self.note_de + self.get_de(instance)
+            else:
+                return self.get_de(instance)
 
         elif self.is_de:
             de = self.get_de(instance)
 
-            if de not in [None, '', '<p></p>']:
+            if de:
                 return de
-            else:
+            elif self.note:
                 return self.note_en + self.get_en(instance)
+            else:
+                return self.get_en(instance)
 
         else:
             raise RuntimeError('Language not supported.')
@@ -80,26 +81,30 @@ class TranslatedStreamField(TranslatedField):
 
             if en:
                 return en
-            else:
+            elif self.note:
                 # inject the translation note into StreamValue.render_as_block
                 de = self.get_de(instance)
                 de.render_as_block = lambda context=None: self.note_de + \
                     de.stream_block.render(de, context=context)
 
                 return de
+            else:
+                return self.get_de(instance)
 
         elif self.is_de:
             de = self.get_de(instance)
 
             if de:
                 return de
-            else:
+            elif self.note:
                 # inject the translation note into StreamValue.render_as_block
                 en = self.get_en(instance)
                 en.render_as_block = lambda context=None: self.note_en + \
                     en.stream_block.render(en, context=context)
 
                 return en
+            else:
+                return self.get_en(instance)
 
         else:
             raise RuntimeError('Language not supported.')

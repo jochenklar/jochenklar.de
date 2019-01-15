@@ -22,7 +22,7 @@ from wagtail.search import index
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from jkde.core.models import SingletonMixin, PaginatorMixin
-from jkde.core.fields import TranslatedTitleField, TranslatedTextField, TranslatedStreamField
+from jkde.core.fields import TranslatedTextField, TranslatedStreamField
 
 
 class BlogIndexPage(SingletonMixin, PaginatorMixin, Page):
@@ -37,8 +37,8 @@ class BlogIndexPage(SingletonMixin, PaginatorMixin, Page):
     color = models.ForeignKey(
         'core.Color', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
-    trans_title = TranslatedTitleField('title')
-    trans_intro = TranslatedTextField('intro')
+    trans_title = TranslatedTextField('title')
+    trans_intro = TranslatedTextField('intro', note=True)
 
     content_panels = [
         FieldPanel('title', classname="full title"),
@@ -75,7 +75,7 @@ class BlogPage(Page):
     body = StreamField(BODY_BLOCKS, blank=True)
     body_de = StreamField(BODY_BLOCKS, blank=True)
 
-    trans_title = TranslatedTitleField('title')
+    trans_title = TranslatedTextField('title')
     trans_body = TranslatedStreamField('body')
 
     search_fields = Page.search_fields + [

@@ -23,7 +23,7 @@ from wagtail.snippets.models import register_snippet
 
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
-from jkde.core.fields import TranslatedTitleField, TranslatedTextField
+from jkde.core.fields import TranslatedTextField
 
 
 class SingletonMixin(object):
@@ -74,8 +74,8 @@ class HomePage(SingletonMixin, Page):
     color = models.ForeignKey(
         'core.Color', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
-    trans_title = TranslatedTitleField('title')
-    trans_body = TranslatedTextField('body')
+    trans_title = TranslatedTextField('title')
+    trans_body = TranslatedTextField('body', note=True)
 
     content_panels = [
         FieldPanel('title', classname="full title"),
@@ -85,7 +85,7 @@ class HomePage(SingletonMixin, Page):
         FieldPanel('title_de', classname="full title"),
         FieldPanel('body_de', classname='full'),
     ]
-    promote_panels = Page.promote_panels + [
+    misc_panels = [
         ImageChooserPanel('image'),
         FieldPanel('image_credit', classname='full'),
         SnippetChooserPanel('color'),
@@ -94,7 +94,8 @@ class HomePage(SingletonMixin, Page):
     edit_handler = TabbedInterface([
         ObjectList(content_panels, heading='Content'),
         ObjectList(content_de_panels, heading='Content DE'),
-        ObjectList(promote_panels, heading='Promote'),
+        ObjectList(misc_panels, heading='Misc'),
+        ObjectList(Page.promote_panels, heading='Promote'),
         ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
     ])
 
@@ -114,8 +115,8 @@ class MainPage(Page):
     color = models.ForeignKey(
         'core.Color', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
-    trans_title = TranslatedTitleField('title')
-    trans_body = TranslatedTextField('body')
+    trans_title = TranslatedTextField('title')
+    trans_body = TranslatedTextField('body', note=True)
 
     content_panels = [
         FieldPanel('title', classname="full title"),
@@ -125,7 +126,7 @@ class MainPage(Page):
         FieldPanel('title_de', classname="full title"),
         FieldPanel('body_de', classname='full'),
     ]
-    promote_panels = Page.promote_panels + [
+    misc_panels = [
         ImageChooserPanel('image'),
         FieldPanel('image_credit', classname='full'),
         SnippetChooserPanel('color'),
@@ -134,7 +135,8 @@ class MainPage(Page):
     edit_handler = TabbedInterface([
         ObjectList(content_panels, heading='Content'),
         ObjectList(content_de_panels, heading='Content DE'),
-        ObjectList(promote_panels, heading='Promote'),
+        ObjectList(misc_panels, heading='Misc'),
+        ObjectList(Page.promote_panels, heading='Promote'),
         ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
     ])
 
@@ -149,8 +151,8 @@ class TextPage(Page):
     color = models.ForeignKey(
         'core.Color', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
 
-    trans_title = TranslatedTitleField('title')
-    trans_body = TranslatedTextField('body')
+    trans_title = TranslatedTextField('title')
+    trans_body = TranslatedTextField('body', note=True)
 
     content_panels = [
         FieldPanel('title', classname="full title"),
@@ -160,14 +162,15 @@ class TextPage(Page):
         FieldPanel('title_de', classname="full title"),
         FieldPanel('body_de', classname='full'),
     ]
-    promote_panels = Page.promote_panels + [
+    misc_panels = [
         SnippetChooserPanel('color'),
     ]
 
     edit_handler = TabbedInterface([
         ObjectList(content_panels, heading='Content'),
         ObjectList(content_de_panels, heading='Content DE'),
-        ObjectList(promote_panels, heading='Promote'),
+        ObjectList(misc_panels, heading='Misc'),
+        ObjectList(Page.promote_panels, heading='Promote'),
         ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
     ])
 
@@ -236,7 +239,7 @@ class Color(ClusterableModel):
             a, a:hover, a:focus, a:visited {
                 color: rgb(%(red)s, %(green)s, %(blue)s);
             }
-            blockquote p,
+            blockquote,
             address,
             pre {
                 border-color: rgb(%(red)s, %(green)s, %(blue)s);

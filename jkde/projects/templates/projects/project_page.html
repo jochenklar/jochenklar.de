@@ -14,14 +14,14 @@
             </div>
             <div class="col-md-9">
                 <h1>{{ page.trans_title }}</h1>
-                <h3>{{ page.trans_subtitle }}</h3>
+                {% if page.trans_subtitle %}
+                    <h3>{{ page.trans_subtitle }}</h3>
+                {% endif %}
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="meta">
-                    <p>{% trans 'Status' %}: In progress</p>
-
                     {% if page.start_date %}
                     <p>
                         {% trans 'Start' %}: {{ page.start_date }}
@@ -32,52 +32,40 @@
                         {% trans 'End' %}: {{ page.end_date }}
                     </p>
                     {% endif %}
-
-                    {% with page.collaborations.all as collaborations %}
-                    {% if collaborations %}
-
-                    <p>{% trans 'In collaboration with' %}:</p>
-
-                    <ul class="list-unstyled">
-                    {% for collaboration in collaborations %}
-                        <li>
-                            {% if collaboration.url %}
-                            <a href="{{ collaboration.url }}">
-                                {{ collaboration.name }}
-                            </a>
-                            {% else %}
-                            {{ collaboration.name }}
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                    </ul>
-
-                    {% endif %}
-                    {% endwith %}
-
-                    {% with page.related_links.all as related_links %}
-                    {% if related_links %}
-
-                    <p>{% trans 'Links' %}:</p>
-
-                    <ul class="list-unstyled">
-                    {% for link in page.related_links.all %}
-                        <li>
-                            <a href="{{ link.url }}">
-                                {{ link.title }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                    </ul>
-
-                    {% endif %}
-                    {% endwith %}
+                    <p>
+                        {% trans 'Status' %}: {{ page.get_status_display }}
+                    </p>
                 </div>
             </div>
             <div class="col-md-9">
                 {{ page.trans_teaser|richtext }}
 
-                {% include_block page.body %}
+                {% include_block page.trans_body %}
+
+                {% if page.trans_collaboration %}
+                <h3>
+                    {% trans 'Collaboration' %}
+                </h3>
+
+                {{ page.trans_collaboration|richtext }}
+                {% endif %}
+
+                {% if page.trans_publications %}
+                <h3>
+                    {% trans 'Publications' %}
+                </h3>
+
+                {{ page.trans_publications|richtext }}
+                {% endif %}
+
+                {% if page.trans_references %}
+                <h3>
+                    {% trans 'References' %}
+                </h3>
+
+                {{ page.trans_references|richtext }}
+                {% endif %}
+
             </div>
         </div>
     </div>
